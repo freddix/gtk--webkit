@@ -1,13 +1,13 @@
 Summary:	Port of WebKit embeddable web component to GTK+
 Name:		gtk+-webkit
-Version:	1.8.3
+Version:	1.10.1
 Release:	1
 License:	BSD-like
 Group:		X11/Libraries
-Source0:	http://webkitgtk.org/releases/webkit-%{version}.tar.xz
-# Source0-md5:	dcbf9d5e2e6391f857c29a57528b32a6
-Patch0:		changeset_124099.diff
+Source0:	http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
+# Source0-md5:	28c930cda012391453c476cdacfaca65
 URL:		http://www.webkitgtk.org/
+BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
@@ -28,6 +28,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	libxslt-devel
 BuildRequires:	pkg-config
+BuildRequires:	ruby
 BuildRequires:	sqlite3-devel
 BuildRequires:	xorg-libXft-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -44,8 +45,7 @@ Requires:	%{name} = %{version}-%{release}
 Development files for webkit.
 
 %prep
-%setup -qn webkit-%{version}
-%patch0 -p2
+%setup -qn webkitgtk-%{version}
 
 %build
 %{__gtkdocize}
@@ -54,7 +54,11 @@ Development files for webkit.
 %{__autoheader}
 %{__automake}
 %{__autoconf}
+# https://bugs.webkit.org/show_bug.cgi?id=91154
+export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g')"
+export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
 %configure \
+	--disable-webkit2	\
 	--enable-geolocation	\
 	--enable-introspection	\
 	--enable-spellcheck	\
@@ -67,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%find_lang webkit-2.0
+%find_lang webkitgtk-2.0
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -75,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /usr/sbin/ldconfig
 %postun	-p /usr/sbin/ldconfig
 
-%files -f webkit-2.0.lang
+%files -f webkitgtk-2.0.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %ghost %{_libdir}/libjavascriptcoregtk-*.so.?
 %attr(755,root,root) %ghost %{_libdir}/libwebkitgtk-*.so.?
