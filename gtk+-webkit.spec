@@ -1,7 +1,7 @@
 Summary:	Port of WebKit embeddable web component to GTK+
 Name:		gtk+-webkit
 Version:	1.10.1
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		X11/Libraries
 Source0:	http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
@@ -62,6 +62,7 @@ export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
 	--enable-geolocation	\
 	--enable-introspection	\
 	--enable-spellcheck	\
+	--with-gstreamer=1.0	\
 	--with-gtk=2.0
 %{__make}
 
