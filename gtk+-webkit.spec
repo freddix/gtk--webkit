@@ -1,11 +1,11 @@
 Summary:	Port of WebKit embeddable web component to GTK+
 Name:		gtk+-webkit
-Version:	1.10.2
+Version:	2.0.0
 Release:	1
 License:	BSD-like
 Group:		X11/Libraries
 Source0:	http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
-# Source0-md5:	7b1a652af1eb11bee5bf7209e9ff67e6
+# Source0-md5:	fa231ba8c9cd33575b9692614324be21
 URL:		http://www.webkitgtk.org/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
@@ -48,7 +48,6 @@ Development files for webkit.
 %setup -qn webkitgtk-%{version}
 
 %build
-%{__gtkdocize}
 %{__libtoolize}
 %{__aclocal} -I Source/autotools
 %{__autoheader}
@@ -72,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%find_lang webkitgtk-2.0
+%find_lang WebKitGTK-2.0
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -80,7 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /usr/sbin/ldconfig
 %postun	-p /usr/sbin/ldconfig
 
-%files -f webkitgtk-2.0.lang
+%files -f WebKitGTK-2.0.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %ghost %{_libdir}/libjavascriptcoregtk-*.so.?
 %attr(755,root,root) %ghost %{_libdir}/libwebkitgtk-*.so.?
