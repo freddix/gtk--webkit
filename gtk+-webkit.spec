@@ -1,11 +1,11 @@
 Summary:	Port of WebKit embeddable web component to GTK+
 Name:		gtk+-webkit
-Version:	2.0.0
+Version:	2.0.1
 Release:	1
 License:	BSD-like
 Group:		X11/Libraries
 Source0:	http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
-# Source0-md5:	fa231ba8c9cd33575b9692614324be21
+# Source0-md5:	69c2037b6d2644d789d34940eac9c993
 URL:		http://www.webkitgtk.org/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
