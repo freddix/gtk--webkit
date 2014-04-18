@@ -1,11 +1,11 @@
 Summary:	Port of WebKit embeddable web component to GTK+
 Name:		gtk+-webkit
-Version:	2.4.0
+Version:	2.4.1
 Release:	1
 License:	BSD-like
 Group:		X11/Libraries
 Source0:	http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
-# Source0-md5:	c759bf11fe4cadd1268630f16a97f7b9
+# Source0-md5:	c57ebecff1ba7663b303e21a64840c48
 URL:		http://www.webkitgtk.org/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
@@ -33,6 +33,13 @@ BuildRequires:	sqlite3-devel
 BuildRequires:	xorg-libXft-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_libexecdir	    %{_libdir}/webkit2gtk-1.0
+
+# unresolved, not sure how bad is it
+#   _ZSt11__once_call
+#   _ZSt15__once_callable
+%define		skip_post_check_so  libwebkitgtk-1.0.so.* libjavascriptcoregtk-1.0.so.*
+
 %description
 webkit is a port of the WebKit embeddable web component to GTK+.
 
@@ -43,6 +50,14 @@ Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Development files for webkit.
+
+%package apidocs
+Summary:	WebKitGTK API documentation
+Group:		Documentation
+Requires:	gtk-doc-common
+
+%description apidocs
+WebKitGTK API documentation.
 
 %prep
 %setup -qn webkitgtk-%{version}
@@ -56,13 +71,16 @@ Development files for webkit.
 # https://bugs.webkit.org/show_bug.cgi?id=91154
 export CFLAGS="%(echo %{rpmcflags} | sed 's/ -g2/ -g1/g')"
 export CXXFLAGS="%(echo %{rpmcxxflags} | sed 's/ -g2/ -g1/g')"
+export LDFLAGS="%{rpmldflags}"
 %configure \
-	--disable-webkit2	\
-	--enable-geolocation	\
-	--enable-introspection	\
-	--enable-spellcheck	\
-	--with-gstreamer=1.0	\
-	--with-gtk=2.0
+	--disable-schemas-compile	\
+	--disable-silent-rules		\
+	--disable-webkit2		\
+	--enable-geolocation		\
+	--enable-introspection		\
+	--enable-spellcheck		\
+	--with-gtk=2.0			\
+	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
 %install
@@ -70,6 +88,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %find_lang WebKitGTK-2.0
 
@@ -96,3 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/*.pc
 %{_datadir}/gir-1.0/*.gir
 
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/webkitdomgtk
+%{_gtkdocdir}/webkitgtk
