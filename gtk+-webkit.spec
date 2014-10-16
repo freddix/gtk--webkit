@@ -1,11 +1,11 @@
 Summary:	Port of WebKit embeddable web component to GTK+
 Name:		gtk+-webkit
-Version:	2.4.1
+Version:	2.4.6
 Release:	1
 License:	BSD-like
 Group:		X11/Libraries
 Source0:	http://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz
-# Source0-md5:	c57ebecff1ba7663b303e21a64840c48
+# Source0-md5:	b0d019777754bb5779de8b9ad1dd6bfe
 URL:		http://www.webkitgtk.org/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	autoconf
@@ -15,10 +15,12 @@ BuildRequires:	curl-devel
 BuildRequires:	enchant-devel
 BuildRequires:	flex
 BuildRequires:	fontconfig-devel
-BuildRequires:	geoclue-devel
+BuildRequires:	geoclue2-devel
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	gperf
 BuildRequires:	gstreamer-plugins-base-devel
+BuildRequires:	gtk+-devel
+BuildRequires:	gtk+3-devel
 BuildRequires:	icu-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
@@ -26,6 +28,7 @@ BuildRequires:	librsvg-devel
 BuildRequires:	libsoup-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
+BuildRequires:	libwebp-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	pkg-config
 BuildRequires:	ruby
@@ -58,6 +61,14 @@ Requires:	gtk-doc-common
 
 %description apidocs
 WebKitGTK API documentation.
+
+%package demo
+Summary:	Demo GTK+/webkit application
+Group:		Applications
+Requires:	%{name} = %{version}-%{release}
+
+%description demo
+Simple GTK+/webkit based browser.
 
 %prep
 %setup -qn webkitgtk-%{version}
